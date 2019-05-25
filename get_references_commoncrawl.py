@@ -21,8 +21,8 @@ from __future__ import print_function
 import os
 import tempfile
 
-import utils
-import wikisum
+from tensor2tensor.data_generators.wikisum import utils
+from tensor2tensor.data_generators.wikisum import wikisum
 
 import tensorflow as tf
 

@@ -25,6 +25,7 @@ import gzip
 import os
 import re
 import urllib
+import urllib.request
 
 import tensorflow as tf
 
@@ -62,14 +63,14 @@ class WETHeader(collections.namedtuple('WETHeader', ['url', 'length'])):
     """Read header from file. Headers end with length and then 1 blank line."""
     url = None
 
-    line = f.readline()
+    line = f.readline().decode("utf-8")
     if not line:
       # EOF
       return None
     while not line.startswith(cls.LENGTH_HEADER):
       if line.startswith(cls.URI_HEADER):
         url = line[len(cls.URI_HEADER):].strip()
-      line = f.readline()
+      line = f.readline().decode("utf-8")
 
     # Consume empty separator
     f.readline()
@@ -134,7 +135,7 @@ def download(url, download_dir):
     return outname
   inprogress = outname + '.incomplete'
   print('Downloading %s' % url)
-  inprogress, _ = urllib.urlretrieve(url, inprogress)
+  inprogress, _ = urllib.request.urlretrieve(url, inprogress)
   tf.gfile.Rename(inprogress, outname)
   return outname
 
@@ -144,7 +145,7 @@ def wet_download_urls(wet_paths_url, tmp_dir, rm_after=True):
   with gzip.open(paths_gz) as f:
     path = f.readline()
     while path:
-      download_path = S3_HTTP_PREFIX + path[:-1]
+      download_path = S3_HTTP_PREFIX + path[:-1].decode("utf-8")
       yield download_path
       path = f.readline()
   if rm_after:

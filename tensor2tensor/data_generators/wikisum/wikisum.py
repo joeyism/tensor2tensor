@@ -220,7 +220,7 @@ def _truncate_to_lead_section(example):
 def _make_example_from_record(record):
   features = {
       "url":
-          tf.train.Feature(bytes_list=tf.train.BytesList(value=[record.url])),
+          tf.train.Feature(bytes_list=tf.train.BytesList(value=[record.url.encode("utf-8")])),
       "content":
           tf.train.Feature(
               bytes_list=tf.train.BytesList(value=[record.content])),

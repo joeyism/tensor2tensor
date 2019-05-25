@@ -33,7 +33,7 @@ import asyncio
 import aiohttp
 import tensorflow as tf
 
-from tensor2tensor.data_generators.wikisum import html
+from tensor2tensor.data_generators.wikisum import web_html
 from tensor2tensor.data_generators.wikisum import utils
 
 
